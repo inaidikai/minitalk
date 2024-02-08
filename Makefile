@@ -1,0 +1,42 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+COMMON_SRC = utils.c
+CLIENT_SRC = client.c
+SERVER_SRC = server.c
+CLIENT_BONUS_SRC = client_bonus.c
+SERVER_BONUS_SRC = server_bonus.c
+CLIENT_OBJ = $(CLIENT_SRC:.c=.o) $(COMMON_SRC:.c=.o)
+SERVER_OBJ = $(SERVER_SRC:.c=.o) $(COMMON_SRC:.c=.o)
+CLIENT_BONUS_OBJ = $(CLIENT_BONUS_SRC:.c=.o) $(COMMON_SRC:.c=.o)
+SERVER_BONUS_OBJ = $(SERVER_BONUS_SRC:.c=.o) $(COMMON_SRC:.c=.o)
+CLIENT_NAME = client
+SERVER_NAME = server
+CLIENT_BONUS_NAME = client_bonus
+SERVER_BONUS_NAME = server_bonus
+
+all: $(CLIENT_NAME) $(SERVER_NAME) $(CLIENT_BONUS_NAME) $(SERVER_BONUS_NAME)
+
+$(CLIENT_NAME): $(CLIENT_OBJ)
+	$(CC) $(CFLAGS) $(CLIENT_OBJ) -o $(CLIENT_NAME)
+
+$(SERVER_NAME): $(SERVER_OBJ)
+	$(CC) $(CFLAGS) $(SERVER_OBJ) -o $(SERVER_NAME)
+
+$(CLIENT_BONUS_NAME): $(CLIENT_BONUS_OBJ)
+	$(CC) $(CFLAGS) $(CLIENT_BONUS_OBJ) -o $(CLIENT_BONUS_NAME)
+
+$(SERVER_BONUS_NAME): $(SERVER_BONUS_OBJ)
+	$(CC) $(CFLAGS) $(SERVER_BONUS_OBJ) -o $(SERVER_BONUS_NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(CLIENT_OBJ) $(SERVER_OBJ) $(CLIENT_BONUS_OBJ) $(SERVER_BONUS_OBJ)
+
+fclean: clean
+	rm -f $(CLIENT_NAME) $(SERVER_NAME) $(CLIENT_BONUS_NAME) $(SERVER_BONUS_NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
